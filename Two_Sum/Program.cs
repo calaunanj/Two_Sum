@@ -22,7 +22,7 @@ namespace Two_Sum
 
         static void Main()
         {
-            Console.WriteLine("Enter the array of integers, separated by spaces:");
+            Console.WriteLine("Enter the array of integers and separate them by spaces:");
             int[] nums = Array.ConvertAll(Console.ReadLine().Split(), int.Parse);
 
             Console.WriteLine("Enter the target integer:");

@@ -1,35 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Two_Sum
+namespace TwoSumSolution
 {
-    internal class Program
+    class Program
     {
-        public static int[] Two_Sum(int[] nums, int target)
+        public static int[] FindTwoSumIndices(int[] numbers, int targetSum)
         {
-            Dictionary<int, int> numMap = new Dictionary<int, int>();
-            for (int i = 0; i < nums.Length; i++)
+            List<(int number, int index)> numberIndices = new List<(int number, int index)>();
+
+            for (int i = 0; i < numbers.Length; i++)
             {
-                int complement = target - nums[i];
-                if (numMap.ContainsKey(complement))
-                {
-                    return new int[] { numMap[complement], i };
-                }
-                numMap[nums[i]] = i;
+                numberIndices.Add((numbers[i], i));
             }
-            throw new ArgumentException("No two sum solution");
+
+            for (int i = 0; i < numberIndices.Count; i++)
+            {
+                int complement = targetSum - numberIndices[i].number;
+
+                for (int j = i + 1; j < numberIndices.Count; j++)
+                {
+                    if (numberIndices[j].number == complement)
+                    {
+                        return new int[] { numberIndices[i].index, numberIndices[j].index };
+                    }
+                }
+            }
+
+            return new int[0];
         }
 
-        static void Main()
+        static void Main(string[] args)
         {
-            Console.WriteLine("Enter the array of integers and separate them by spaces:");
-            int[] nums = Array.ConvertAll(Console.ReadLine().Split(), int.Parse);
+            Console.Write("Enter numbers and separated the by space: ");
+            int[] numbers = Array.ConvertAll(Console.ReadLine().Split(' '), int.Parse);
 
-            Console.WriteLine("Enter the target integer:");
-            int target = int.Parse(Console.ReadLine());
+            Console.Write("Enter the target sum: ");
+            int targetSum = int.Parse(Console.ReadLine());
 
-            int[] result = Two_Sum(nums, target);
-            Console.WriteLine($"Indices: [{result[0]}, {result[1]}]");
+            int[] resultIndices = FindTwoSumIndices(numbers, targetSum);
+            if (resultIndices.Length > 0)
+            {
+                Console.WriteLine("Output: [{0}]", string.Join(", ", resultIndices));
+            }
+            else
+            {
+                Console.WriteLine("Solution can't be found");
+            }
         }
     }
 }
